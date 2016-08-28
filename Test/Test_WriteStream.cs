@@ -42,8 +42,12 @@ namespace Test
                             
                             int read = 0;
                             using (var stream = req.ReceiveStream())
+                            {
+                                if (stream.Length == 0)
+                                    return;
                                 while (stream.Length != stream.Position)
                                     read += stream.Read(streamOutput, 0, streamOutput.Length);
+                            }
                             Trace.Assert(read == _serverData.Length);
                         }
                         sw.Stop();
@@ -78,8 +82,8 @@ namespace Test
                     }
                     
                 }
-
-                clientThread.Abort();
+                rep.Send(new byte[0]);
+                clientThread.Join();
             }
         
         }

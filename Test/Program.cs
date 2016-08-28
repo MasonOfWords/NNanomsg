@@ -1,11 +1,13 @@
 ﻿
+using NNanomsg;
+
 namespace Test
 {
     class Program
     {
         private static void Main(string[] args)
         {
-            Test_MsgPack.Execute();
+            //Test_MsgPack.Execute();
             Test_WriteStream.Execute();
             Test_PubSub.Execute();
             Test_WCF.Execute();

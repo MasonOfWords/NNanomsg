@@ -8,12 +8,13 @@ namespace Test
 {
     public static class Test_PubSub
     {
-        const string InprocAddress = "inproc://127.0.0.1:6519";
+        const string InprocAddress = "tcp://127.0.0.1:6519";
         const int DataSize = TestConstants.DataSize, BufferSize = 1024 * 4, Iter = TestConstants.Iterations * 10;
         public static void Execute()
         {
             Console.WriteLine("Executing pubsub test ");
             int receiveCount = 0;
+            bool finished = false;
             var clientThread = new Thread(
                 () =>
                 {
@@ -28,7 +29,15 @@ namespace Test
                         for (int i = 0; i < Iter; i++)
                         {
                             int read = 0;
-                            streamOutput = subscriber.Receive();
+                            do
+                            {
+                                streamOutput = subscriber.ReceiveImmediate();
+                                if (streamOutput == null) Thread.Sleep(0);
+                                if (finished) return;
+                            } while (streamOutput == null);
+
+                            if (streamOutput.Length == 1)
+                                return;
                             read = streamOutput.Length;
                             //using (var stream = subscriber.ReceiveStream())
                             //    while (stream.Length != stream.Position)
@@ -41,6 +50,7 @@ namespace Test
                             //    }
 
                             ++receiveCount;
+
                         }
                         sw.Stop();
                         var secondsPerSend = sw.Elapsed.TotalSeconds / (double)Iter;
@@ -52,7 +62,7 @@ namespace Test
                 });
             clientThread.Start();
 
-            
+
             {
                 var publisher = new PublishSocket();
                 publisher.Bind(InprocAddress);
@@ -64,10 +74,13 @@ namespace Test
                 while (sw.Elapsed.TotalSeconds < 10)
                 {
                     publisher.Send(data);
+                    Thread.Sleep(0);
                     ++sendCount;
                 }
                 Thread.Sleep(100);
-                clientThread.Abort();
+                finished = true;
+                publisher.Send(new byte[1]);
+                clientThread.Join();
 
                 Console.WriteLine("Send count {0} receive count {1}", sendCount, receiveCount);
                 publisher.Dispose();

@@ -33,7 +33,7 @@ namespace NNanomsg
             if (buffer == null)
                 throw new ArgumentNullException("buffer");
 
-            if (length <= 0)
+            if (length < 0)
                 throw new ArgumentOutOfRangeException("length");
 
             _length = length;

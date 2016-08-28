@@ -14,13 +14,13 @@ namespace NNanomsg
                 int value;
 
                 var ptr = Interop.nn_symbol(i, out value);
-                
+
                 string symbolText = Marshal.PtrToStringAnsi(ptr);
 
                 if (symbolText == null)
                     break;
 
-                FieldInfo field =  thisType.GetField(symbolText, BindingFlags.Static | BindingFlags.Public);
+                FieldInfo field = thisType.GetField(symbolText, BindingFlags.Static | BindingFlags.Public);
 
                 if (field != null)
                     field.SetValue(null, value);
@@ -30,6 +30,27 @@ namespace NNanomsg
         }
 
         public static readonly int
+            NN_TYPE_NONE,
+            NN_TYPE_INT,
+            NN_TYPE_STR,
+            NN_UNIT_NONE,
+            NN_UNIT_BYTES,
+            NN_UNIT_MILLISECONDS,
+            NN_UNIT_PRIORITY,
+            NN_UNIT_BOOLEAN,
+            NN_NS_EVENT,
+            NN_NS_LIMIT,
+            NN_NS_ERROR,
+            NN_NS_FLAG,
+            NN_NS_OPTION_UNIT,
+            NN_NS_OPTION_TYPE,
+            NN_NS_TRANSPORT_OPTION,
+            NN_NS_SOCKET_OPTION,
+            NN_NS_OPTION_LEVEL,
+            NN_NS_PROTOCOL,
+            NN_NS_TRANSPORT,
+            NN_NS_DOMAIN,
+            NN_NS_VERSION,
             NN_NS_NAMESPACE,
             NN_VERSION_CURRENT,
             NN_VERSION_REVISION,
@@ -59,17 +80,21 @@ namespace NNanomsg
             NN_RECONNECT_IVL,
             NN_RECONNECT_IVL_MAX,
             NN_SNDPRIO,
+            NN_RCVPRIO,
             NN_SNDFD,
             NN_RCVFD,
             NN_DOMAIN,
             NN_PROTOCOL,
             NN_IPV4ONLY,
+            NN_SOCKET_NAME,
             NN_SUB_SUBSCRIBE,
             NN_SUB_UNSUBSCRIBE,
             NN_REQ_RESEND_IVL,
             NN_SURVEYOR_DEADLINE,
             NN_TCP_NODELAY,
             NN_DONTWAIT,
+            NN_POLLIN,
+            NN_POLLOUT,
             EADDRINUSE,
             EADDRNOTAVAIL,
             EAFNOSUPPORT,
