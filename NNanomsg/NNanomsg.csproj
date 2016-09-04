@@ -44,6 +44,7 @@
     <Compile Include="NanomsgSocket.cs" />
     <Compile Include="NanomsgSocketBase.cs" />
     <Compile Include="NanomsgSocketOptions.cs" />
+    <Compile Include="NanomsgStatistics.cs" />
     <Compile Include="NanomsgSymbols.cs" />
     <Compile Include="NanomsgReadStream.cs" />
     <Compile Include="NanomsgWriteStream.cs" />

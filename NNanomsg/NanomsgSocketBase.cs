@@ -14,6 +14,7 @@ namespace NNanomsg
         public Domain Domain { get; private set; }
         public Protocol Protocol { get; private set; }
         public NanomsgSocketOptions Options { get; private set; }
+        public NanomsgStatistics Statistics => new NanomsgStatistics(_socket);
         public int SocketID { get { return _socket; } }
 
         int _socket = NullSocket;
@@ -123,6 +124,7 @@ namespace NNanomsg
                 return true;
             }
         }
+
 
         /// <summary>
         /// Closes the socket, releasing its resources and making it invalid for future use.

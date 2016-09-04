@@ -268,5 +268,11 @@ namespace NNanomsg
             get { return GetInt(_socket, SocketOptionLevel.Tcp, SocketOption.TCP_NODELAY) == 1; }
             set { SetInt(_socket, SocketOptionLevel.Tcp, SocketOption.TCP_NODELAY, value ? 1 : 0); }
         }
+
+        public WebSocketType WebSocketType
+        {
+            get { return (WebSocketType)GetInt(_socket, SocketOptionLevel.Ws, SocketOption.WS_MSG_TYPE); }
+            set { SetInt(_socket, SocketOptionLevel.Ws, SocketOption.WS_MSG_TYPE, (int)value); }
+        }
     }
 }
